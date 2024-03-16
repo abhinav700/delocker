@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import axios from 'axios';
 import {TailSpin}  from 'react-loader-spinner'
-
 function FileUpload({ account, contract }) {
     const [file, setFile] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const sendFileToIPFS = async (e) => {
+
         e.preventDefault();
         setLoading(true);
         try {
@@ -21,7 +21,7 @@ function FileUpload({ account, contract }) {
                     "Authorization": `Bearer ${process.env.REACT_APP_JWT}`,
                 },
             });
-            const ImgUrl = `https://gateway.pinata.cloud/ipfs${resFile.data.IpfsHash}`;
+            const ImgUrl = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
             await contract.add(account, ImgUrl);
             alert("File Uploaded successfuly")
 
@@ -32,7 +32,6 @@ function FileUpload({ account, contract }) {
             setLoading(false);
         }
     }
-
     return (
         <div style = {{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             {
@@ -46,9 +45,9 @@ function FileUpload({ account, contract }) {
                 wrapperStyle={{}}
                 wrapperClass=""
             />:
-            <form action="post" style={{ marginTop: "", textAlign: "center" }}>
+            <form action="post" style={{ marginBottom: "3%", textAlign: "center" }}>
 
-                <p style={{ marginBottom: "7%" }}>Choose an Image to upload</p>
+                <p>Choose an Image to upload</p>
 
                 <input
                     style={{ cursor: "pointer" }}
