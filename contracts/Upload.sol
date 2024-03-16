@@ -5,7 +5,7 @@ contract Upload {
         address user;
         bool access;
     }
-    // for displaying list of users having access to the _user's drive
+    // for displaying list of users having access to the _user's        drive
     mapping(address => Access[]) accessList;
 
     // Urls of images stored by _user
@@ -22,13 +22,12 @@ contract Upload {
     }
     function allow(address _user) public {
         ownership[msg.sender][_user] = true;
-        if (previousData[msg.sender][_user] = false) {
+        if (previousData[msg.sender][_user] == false) {
             accessList[msg.sender].push(Access(_user, true));
             previousData[msg.sender][_user] = true;
         } else {
             for (uint i = 0; i < accessList[msg.sender].length; i++) {
                 if (accessList[msg.sender][i].user == _user) {
-                    if (accessList[msg.sender][i].access = false)
                         accessList[msg.sender][i].access = true;
                 }
             }
@@ -46,7 +45,7 @@ contract Upload {
         }
     }
     function display(address _user) public view returns(string[]  memory){
-        require(_user == msg.sender || ownership[msg.sender][_user] == true, "You don't have access");
+        require(_user == msg.sender || ownership[_user][msg.sender] == true, "You don't have access");
         return imageUrls[_user];
     }
 
