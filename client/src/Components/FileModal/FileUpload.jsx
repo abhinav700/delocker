@@ -22,6 +22,7 @@ function FileUpload({ account, contract }) {
                 },
             });
             const ImgUrl = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
+            console.log("File upload component", account);
             await contract.add(account, ImgUrl);
             alert("File Uploaded successfuly")
 
@@ -45,9 +46,8 @@ function FileUpload({ account, contract }) {
                 wrapperStyle={{}}
                 wrapperClass=""
             />:
-            <form action="post" style={{ marginBottom: "3%", textAlign: "center" }}>
+            <form  id = "upload_form" action="post" style={{ marginBottom: "3%", textAlign: "center" }}>
 
-                <p>Choose an Image to upload</p>
 
                 <input
                     style={{ cursor: "pointer" }}
@@ -57,7 +57,7 @@ function FileUpload({ account, contract }) {
                     name="data"
                     onChange={(e) => { setFile(e.target.files[0]) }}
                 />
-                <button onClick={sendFileToIPFS} disabled={!file} style={{ cursor: "pointer" }}>Upload file</button>
+                <button name = "upload_button" onClick={sendFileToIPFS} disabled={!file} style={{ cursor: "pointer" }}>Upload file</button>
             </form>}
         </div>
 

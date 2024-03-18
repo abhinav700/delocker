@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import Upload from "./artifacts/contracts/Upload.sol/Upload.json"
-import FileUpload from "./Components/FileUpload";
+import FileUpload from "./Components/FileModal/FileUpload";
 import path from "./image/background.jpg";
 import "./App.css";
+import Display from "./Components/Display/Display";
+import FileModal from "./Components/FileModal/FileUploadModal";
 function App() {
   const [account, setAccount] = useState(null);
   const [contract, setContract] = useState(null);
@@ -21,13 +23,17 @@ function App() {
     }
     provider && loadProvider();
   }, [])
-  return (
-    <div style={{ width: "100%", height: "100vh", padding: "1px 0px", backgroundImage: `url(${path})`, backgroundRepeat: `no-repeat cover center` }}>
+  return ( 
+    <div style={{ width: "100%", height: "fit-content",minHeight:"100vh", padding: "1px 0px", backgroundImage: `url(${path})`, backgroundRepeat: `no-repeat cover center` }}>
+      <nav style = {{margin :"2%"}}>
+        <FileModal account = {account} contract = {contract}/>
+      </nav>
       <h1 style={{ textAlign: "center", }}>Welcome to DeLocker!!</h1>
       <p style={{ marginTop: "3%", textAlign: "center" }}>
         <span style={{ fontWeight: "bold" }}>Account :</span> {account ? account : "Not connected"}
       </p>
-      <FileUpload account={account} contract={contract} />
+      
+      <Display account = {account} contract = {contract}/>
     </div>
   );
 }
