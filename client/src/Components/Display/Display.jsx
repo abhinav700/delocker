@@ -8,7 +8,7 @@ const Display = ({ account, contract }) => {
   const [loading, setLoading] = useState(false)
   const loadData = async (e) => {
     e.preventDefault();
-    const _user = e.target.name == "Your-Data" ? account : otherAccount;
+    const _user = e.target.name === "Your-Data" ? account : otherAccount;
     console.log(_user);
     setLoading(true);
     try {
@@ -53,8 +53,8 @@ const Display = ({ account, contract }) => {
               type="text"
               style={{ width: "305px", padding: "5px", marginRight: "5px" }} />
             <br />
-            <Button disabled={otherAccount == ""} variant="primary" name="Other-Data" style={{ margin: "4%", padding :"4px" }} onClick={loadData} className='otherData'>Data from specific Account</Button> {/* Additional styling */}
-            <Button variant="primary" name="Your-Data" style={{ margin: "4%", padding :"4px" }} onClick={loadData} className='otherData'>Fetch Your Data</Button> {/* Additional styling */}
+            <Button disabled={otherAccount === "" || otherAccount === null} variant="primary" name="Other-Data" style={{ margin: "4%", padding :"4px" }} onClick={loadData} className='otherData'>Data from specific Account</Button> {/* Additional styling */}
+            <Button disabled={account === "" || account === null} variant="primary" name="Your-Data" style={{ margin: "4%", padding :"4px" }} onClick={loadData} className='otherData'>Fetch Your Data</Button> {/* Additional styling */}
           </div>
 
       }
