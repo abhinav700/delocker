@@ -20,7 +20,7 @@ contract Upload {
     function add(address _user, string memory url) public {
         imageUrls[_user].push(url);
     }
-    function allow(address _user) public {
+    function shareAccess(address _user) public {
         ownership[msg.sender][_user] = true;
         if (previousData[msg.sender][_user] == false) {
             accessList[msg.sender].push(Access(_user, true));
