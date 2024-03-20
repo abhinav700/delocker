@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Dropdown from "react-bootstrap/Dropdown"
 import Button from "react-bootstrap/Button"
 function AccessList({ account, contract }) {
-    const [accessList, setAccessList] = useState(null);
-    
+    const [accessList, setAccessList] = useState([]);
+
     const revokeAccess = async (e, user) => {
         console.log("revoke accesss is called");
         await contract.disallow(user);
@@ -20,6 +20,7 @@ function AccessList({ account, contract }) {
                 </Dropdown.Item>
             )
         })
+
         setAccessList(accessList => data);
     }
     useEffect(() => {
@@ -35,7 +36,14 @@ function AccessList({ account, contract }) {
                     People With access
                 </Dropdown.Toggle>
                 <Dropdown.Menu style={{ width: "fit-content" }} >
-                    {accessList}
+                    {accessList.length > 0 ? accessList : 
+                
+                <Dropdown.Item  style={{ height: "60px", display: "flex", flexDirection: "row", width: "fit-content%", alignItems: "flex-start" }}>
+                <p style={{ marginTop: '2px' }}>Access Not shared with anyone</p>
+
+            </Dropdown.Item>
+                    
+            }
                 </Dropdown.Menu>
             </Dropdown>}
         </div>
