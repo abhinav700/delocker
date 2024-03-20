@@ -3,6 +3,7 @@ import Dropdown from "react-bootstrap/Dropdown"
 import Button from "react-bootstrap/Button"
 function AccessList({ account, contract }) {
     const [accessList, setAccessList] = useState(null);
+    
     const revokeAccess = async (e, user) => {
         console.log("revoke accesss is called");
         await contract.disallow(user);
@@ -23,7 +24,7 @@ function AccessList({ account, contract }) {
     }
     useEffect(() => {
         loadAccessList()
-    }, [])
+    }, [revokeAccess])
 
 
 
