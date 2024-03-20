@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { TailSpin } from 'react-loader-spinner';
+import AccessList from './AccessList';
 
 function ShareAccess({ account, contract }) {
     const [user, setUser] = useState("")
@@ -19,7 +20,7 @@ function ShareAccess({ account, contract }) {
         }
     }
     return (
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width:"100%" }}>
             {loading ? <TailSpin
                 visible={true}
                 height="60"
@@ -40,6 +41,7 @@ function ShareAccess({ account, contract }) {
                     />
                     <Button onClick={handleShareAccess} variant="primary">Share access</Button>
                 </form>}
+            <AccessList account={account} contract = {contract}/>
         </div>
     )
 }
