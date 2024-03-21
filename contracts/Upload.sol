@@ -26,6 +26,18 @@ contract Upload {
     function add(address _user, File memory file) public {
         fileData[_user].push(file);
     }
+    function deleteFile(string memory _hash)public { 
+        
+        for(uint i = 0; i < fileData[msg.sender].length; i++){
+            File memory file = fileData[msg.sender][i];
+            if(keccak256(abi.encodePacked(file.hash)) == keccak256(abi.encodePacked(_hash))){
+              for(uint j = i; j < fileData[msg.sender].length-1; j++)
+                fileData[msg.sender][j]  = fileData[msg.sender][j+1];
+              fileData[msg.sender].pop();
+            }
+            
+        }   
+    }
     function shareAccess(address _user) public {
         ownership[msg.sender][_user] = true;
         if (previousData[msg.sender][_user] == false) {

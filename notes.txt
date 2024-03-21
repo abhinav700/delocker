@@ -1,0 +1,1 @@
+1) Button to delete file along side the table cell.

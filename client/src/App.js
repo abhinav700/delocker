@@ -5,6 +5,8 @@ import path from "./image/background.jpg";
 import "./App.css";
 import Display from "./Components/Display/Display";
 import FileModal from "./Components/FileUploadModal/FileUploadModal";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
 import ShareAccessModal from "./Components/ShareAccessModal/ShareAccessModal";
 function App() {
   const [account, setAccount] = useState(null);

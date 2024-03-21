@@ -3,21 +3,22 @@ import "./Display.css"
 import { TailSpin } from 'react-loader-spinner';
 import Button from "react-bootstrap/Button";
 import Table from 'react-bootstrap/Table';
+import DeleteFile from '../DeleteFile/DeleteFile';
 
 const Display = ({ account, contract }) => {
   const [imageData, setImageData] = useState(null);
   const [otherAccount, setOtherAccount] = useState("")
   const [loading, setLoading] = useState(false)
   const [shouldDisplayTable, setShouldDisplayTable] = useState(false)
+
   const loadData = async (e) => {
     e.preventDefault();
     const _user = e.target.name === "Your-Data" ? account : otherAccount;
-    console.log();    setLoading(true);
+    console.log(); setLoading(true);
     try {
 
       let data = await contract.display(_user);
-      data = data.map((item, index) => {
-        console.log(item);
+      data =(data != null || data[0].hash!="") ? data.map((item, index) => {
         return (
           <tr key={item.hash}>
             <td>{index + 1}</td>
@@ -25,9 +26,10 @@ const Display = ({ account, contract }) => {
             <td>{item.fileType}</td>
             <td>{item.uploadDate}</td>
             <td><a href={`https://gateway.pinata.cloud/ipfs/${item.hash}`}>{item.hash}</a></td>
+            <td style={{ border: "0px" }}><DeleteFile account={account} contract={contract} hash={item.hash} /></td>
           </tr>
         )
-      })
+      }):[]
       setImageData(imageData => data);;
       setShouldDisplayTable(shouldDisplayTable => true);
     } catch (error) {
@@ -66,23 +68,23 @@ const Display = ({ account, contract }) => {
           </div>
 
       }
-      {shouldDisplayTable?<div style={{ margin: "2%", width: "80%", display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "center" }}>
-        <Table striped bordered hover>
+      {shouldDisplayTable ? <div style={{ margin: "2%", width: "80%", display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "center" }}>
+        {imageData.length > 0 ? <Table striped bordered hover>
           <thead>
-        <tr>
-          <th>S.No</th>
-          <th>Name</th>
-          <th>type</th>
-          <th>Upload Date</th>
-          <th>CID/Url</th>
-        </tr>
+            <tr>
+              <th>S.No</th>
+              <th>Name</th>
+              <th>type</th>
+              <th>Upload Date</th>
+              <th>CID/Url</th>
+            </tr>
           </thead>
           <tbody>
-             {imageData}
+            {imageData}
 
           </tbody>
-        </Table>
-      </div>:null}
+        </Table>:<h3>No data to display</h3>}
+      </div> : null}
 
     </div>
 
