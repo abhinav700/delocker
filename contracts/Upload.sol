@@ -5,11 +5,17 @@ contract Upload {
         address user;
         bool access;
     }
+    struct File{
+        string fileName;
+        string hash;
+        string fileType;
+        string uploadDate;
+    }
     // for displaying list of users having access to the _user's        drive
     mapping(address => Access[]) accessList;
 
     // Urls of images stored by _user
-    mapping(address => string[]) imageUrls;
+    mapping(address => File[]) fileData;
 
     // ownership[user1][user2] = true -> user1 has given access to user2
     mapping(address => mapping(address => bool)) ownership;
@@ -17,8 +23,8 @@ contract Upload {
     // for caching purposes
     mapping(address => mapping(address => bool)) previousData;
 
-    function add(address _user, string memory url) public {
-        imageUrls[_user].push(url);
+    function add(address _user, File memory file) public {
+        fileData[_user].push(file);
     }
     function shareAccess(address _user) public {
         ownership[msg.sender][_user] = true;
@@ -44,9 +50,9 @@ contract Upload {
             }
         }
     }
-    function display(address _user) public view returns(string[]  memory){
+    function display(address _user) public view returns(File[]  memory){
         require(_user == msg.sender || ownership[_user][msg.sender] == true, "You don't have access");
-        return imageUrls[_user];
+        return fileData[_user];
     }
 
     function shareAccessList() public view returns(Access[] memory){
