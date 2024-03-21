@@ -20,7 +20,7 @@ const Display = ({ account, contract }) => {
         console.log(item);
         return (
           <tr key={item.hash}>
-            <td>{index}</td>
+            <td>{index + 1}</td>
             <td>{item.fileName}</td>
             <td>{item.fileType}</td>
             <td>{item.uploadDate}</td>
