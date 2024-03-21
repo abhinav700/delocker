@@ -8,6 +8,7 @@ const Display = ({ account, contract }) => {
   const [imageData, setImageData] = useState(null);
   const [otherAccount, setOtherAccount] = useState("")
   const [loading, setLoading] = useState(false)
+  const [shouldDisplayTable, setShouldDisplayTable] = useState(false)
   const loadData = async (e) => {
     e.preventDefault();
     const _user = e.target.name === "Your-Data" ? account : otherAccount;
@@ -28,6 +29,7 @@ const Display = ({ account, contract }) => {
         )
       })
       setImageData(imageData => data);;
+      setShouldDisplayTable(shouldDisplayTable => true);
     } catch (error) {
       console.log(error);
     }
@@ -64,7 +66,7 @@ const Display = ({ account, contract }) => {
           </div>
 
       }
-      <div style={{ margin: "2%", width: "80%", display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "center" }}>
+      {shouldDisplayTable?<div style={{ margin: "2%", width: "80%", display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "center" }}>
         <Table striped bordered hover>
           <thead>
         <tr>
@@ -80,7 +82,7 @@ const Display = ({ account, contract }) => {
 
           </tbody>
         </Table>
-      </div>
+      </div>:null}
 
     </div>
 
