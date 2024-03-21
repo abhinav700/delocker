@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import {TailSpin}  from 'react-loader-spinner'
+import { TailSpin } from 'react-loader-spinner'
 function FileUpload({ account, contract }) {
     const [file, setFile] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -21,44 +21,42 @@ function FileUpload({ account, contract }) {
                     "Authorization": `Bearer ${process.env.REACT_APP_JWT}`,
                 },
             });
-            const ImgUrl = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
-            console.log("File upload component", account);
-            await contract.add(account, ImgUrl);
+            const formattedDate = (new Date(Date.now())).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+            await contract.add(account, {fileName: file.name, hash: resFile.data.IpfsHash, fileType: file.type, uploadDate: formattedDate});
             alert("File Uploaded successfuly")
 
         } catch (error) {
-            console.log("Error sending File to IPFS: ")
             console.log(error)
         } finally {
             setLoading(false);
         }
     }
     return (
-        <div style = {{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             {
-                loading? <TailSpin
-                visible={true}
-                height="60"
-                width="60"
-                color="#4fa94d"
-                ariaLabel="tail-spin-loading"
-                radius="1"
-                wrapperStyle={{}}
-                wrapperClass=""
-            />:
-            <form  id = "upload_form" action="post" style={{ marginBottom: "3%", textAlign: "center" }}>
+                loading ? <TailSpin
+                    visible={true}
+                    height="60"
+                    width="60"
+                    color="#4fa94d"
+                    ariaLabel="tail-spin-loading"
+                    radius="1"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                /> :
+                    <form id="upload_form" action="post" style={{ marginBottom: "3%", textAlign: "center" }}>
 
 
-                <input
-                    style={{ cursor: "pointer" }}
-                    disabled={!account}
-                    type="file"
-                    id="file-upload"
-                    name="data"
-                    onChange={(e) => { setFile(e.target.files[0]) }}
-                />
-                <button name = "upload_button" onClick={sendFileToIPFS} disabled={!file} style={{ cursor: "pointer" }}>Upload file</button>
-            </form>}
+                        <input
+                            style={{ cursor: "pointer" }}
+                            disabled={!account}
+                            type="file"
+                            id="file-upload"
+                            name="data"
+                            onChange={(e) => { setFile(e.target.files[0]); }}
+                        />
+                        <button name="upload_button" onClick={sendFileToIPFS} disabled={!file} style={{ cursor: "pointer" }}>Upload file</button>
+                    </form>}
         </div>
 
     )
