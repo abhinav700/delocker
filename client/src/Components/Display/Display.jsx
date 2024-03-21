@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import "./Display.css"
 import { TailSpin } from 'react-loader-spinner';
 import Button from "react-bootstrap/Button";
+import Table from 'react-bootstrap/Table';
+
 const Display = ({ account, contract }) => {
   const [imageData, setImageData] = useState(null);
   const [otherAccount, setOtherAccount] = useState("")
@@ -9,16 +11,20 @@ const Display = ({ account, contract }) => {
   const loadData = async (e) => {
     e.preventDefault();
     const _user = e.target.name === "Your-Data" ? account : otherAccount;
-    console.log(_user);
-    setLoading(true);
+    console.log();    setLoading(true);
     try {
 
       let data = await contract.display(_user);
-      data = data.map(item => {
-        console.log(item)
+      data = data.map((item, index) => {
+        console.log(item);
         return (
-
-          <img key={item} src={`${item}`} style={{ margin: "2%", width: "20%", height: "20%" }} />
+          <tr key={item.hash}>
+            <td>{index}</td>
+            <td>{item.fileName}</td>
+            <td>{item.fileType}</td>
+            <td>{item.uploadDate}</td>
+            <td><a href={`https://gateway.pinata.cloud/ipfs/${item.hash}`}>{item.hash}</a></td>
+          </tr>
         )
       })
       setImageData(imageData => data);;
@@ -31,7 +37,7 @@ const Display = ({ account, contract }) => {
 
   }
   return (
-    <div style={{marginTop:"4%", width: "100%", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
+    <div style={{ marginTop: "4%", width: "100%", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
       <h4 style={{}}>Fetch Data of an account</h4>
       {
         loading ? <TailSpin
@@ -53,14 +59,27 @@ const Display = ({ account, contract }) => {
               type="text"
               style={{ width: "305px", padding: "5px", marginRight: "5px" }} />
             <br />
-            <Button disabled={otherAccount === "" || otherAccount === null} variant="primary" name="Other-Data" style={{ margin: "4%", padding :"4px" }} onClick={loadData} className='otherData'>Data from specific Account</Button> {/* Additional styling */}
-            <Button disabled={account === "" || account === null} variant="primary" name="Your-Data" style={{ margin: "4%", padding :"4px" }} onClick={loadData} className='otherData'>Fetch Your Data</Button> {/* Additional styling */}
+            <Button disabled={otherAccount === "" || otherAccount === null} variant="primary" name="Other-Data" style={{ margin: "4%", padding: "4px" }} onClick={loadData} className='otherData'>Data from specific Account</Button> {/* Additional styling */}
+            <Button disabled={account === "" || account === null} variant="primary" name="Your-Data" style={{ margin: "4%", padding: "4px" }} onClick={loadData} className='otherData'>Fetch Your Data</Button> {/* Additional styling */}
           </div>
 
       }
       <div style={{ margin: "2%", width: "80%", display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "center" }}>
+        <Table striped bordered hover>
+          <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Name</th>
+          <th>type</th>
+          <th>Upload Date</th>
+          <th>CID/Url</th>
+        </tr>
+          </thead>
+          <tbody>
+             {imageData}
 
-        {imageData}
+          </tbody>
+        </Table>
       </div>
 
     </div>
